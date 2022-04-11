@@ -9,6 +9,31 @@ import BookBoxBackEnd
 window = Tk()
 window.wm_title("BookBox")
 
+# A function to save the tuple that the user selected (highlated) from the list box.
+def get_selected_row(event):
+    try:
+        global selected_tuple
+        index = list1.curselection()[0]
+        selected_tuple = list1.get(index)
+
+        e1.delete(0, END) # This guarantees that the input fields are empty
+        e1.insert(END,selected_tuple[1]) # This fill the input field with the corresponding piece of information from the tuple
+        e2.delete(0, END)
+        e2.insert(END,selected_tuple[2])
+        e3.delete(0, END)
+        e3.insert(END,selected_tuple[3])
+        e4.delete(0, END)
+        e4.insert(END,selected_tuple[4])
+    except IndexError:
+        # Handling error of when user clicks on the input fields
+        """
+        Since the listbox is empty,  list1.curselection()  will be an empty list with no items. 
+        Trying to access the first item on the list with [0]  in line 3 will throw an error 
+        because there is no first item in the list. 
+        """
+        pass
+    
+
 def view_command():
     # This for preventing the view-all button from keeping displaying the rows when its clicked in after the first click
     list1.delete(0, END)
