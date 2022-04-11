@@ -11,7 +11,7 @@ class Database:
         cnx.close()
 
     # A function for inserting a row in the table
-    def insert(title, author, year, isbn):
+    def insert(self, title, author, year, isbn):
         cnx = sqlite3.connect("books.db")
         cur = cnx.cursor()
         cur.execute("INSERT INTO book VALUES (NULL, ?,?,?,?)", (title, author, year, isbn))
