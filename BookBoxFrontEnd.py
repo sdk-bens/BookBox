@@ -4,9 +4,42 @@ Title, Author, ISBN.
 The user can view all records, serach entery, add entry, update entry, delete entry.
 """
 
-from tkinter import *
+import BookBoxBackEnd
 
 window = Tk()
+window.wm_title("BookBox")
+
+def view_command():
+    # This for preventing the view-all button from keeping displaying the rows when its clicked in after the first click
+    list1.delete(0, END)
+    for row in BookBoxBackEnd.view():
+        list1.insert(END,  row)
+
+def search_command():
+    list1.delete(0, END)
+    for row in BookBoxBackEnd.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
+        list1.insert(END, row)
+
+# Wrraper function fir getthing the data from the back end
+def add_command():
+    BookBoxBackEnd.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    list1.delete(0, END) # making sure the listbox is empty
+
+    #Displaying on tthe listbox what the user enters (to verifythat data got entered
+    list1.insert(END, (title_text.get(), author_text.get(), year_text.get(), isbn_text.get()))
+
+def delete_command():
+    # we use the global variable selected_tuple that get assigned in the get_selected_row function.
+    # We take only the id from that tuple
+    # We pass that id to the delete function from the back end to perform the row removal
+    BookBoxBackEnd.delete(selected_tuple[0])
+
+def update_command():
+    # We keep the id (selected_tuple[0]) since csn not be updated
+    BookBoxBackEnd.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+
+
+
 
 label1 = Label(window, text="title")
 label1.grid(row=0, column=0)
